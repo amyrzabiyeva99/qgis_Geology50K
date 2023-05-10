@@ -1,0 +1,1946 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css"><link rel="stylesheet" href="css/L.Control.Locate.min.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <link rel="stylesheet" href="css/leaflet-search.css">
+        <link rel="stylesheet" href="css/leaflet-control-geocoder.Geocoder.css">
+        <link rel="stylesheet" href="css/leaflet-measure.css">
+        <style>
+        #map {
+            width: 962px;
+            height: 866px;
+        }
+        </style>
+        <title></title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script><script src="js/L.Control.Locate.min.js"></script>
+        <script src="js/multi-style-layer.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="js/leaflet-control-geocoder.Geocoder.js"></script>
+        <script src="js/leaflet-measure.js"></script>
+        <script src="js/leaflet-search.js"></script>
+        <script src="data/LithologyA_0.js"></script>
+        <script src="data/LithologyA_1.js"></script>
+        <script src="data/LithologyA_2.js"></script>
+        <script src="data/Faults_3.js"></script>
+        <script>
+        var highlightLayer;
+        function highlightFeature(e) {
+            highlightLayer = e.target;
+
+            if (e.target.feature.geometry.type === 'LineString') {
+              highlightLayer.setStyle({
+                color: '#ffff00',
+              });
+            } else {
+              highlightLayer.setStyle({
+                fillColor: '#ffff00',
+                fillOpacity: 1
+              });
+            }
+        }
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:28, minZoom:1
+        }).fitBounds([[45.6875924044595,74.90358836533728],[46.03884071582708,75.46248786776677]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+        var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+        L.control.locate({locateOptions: {maxZoom: 19}}).addTo(map);
+        var measureControl = new L.Control.Measure({
+            position: 'topleft',
+            primaryLengthUnit: 'meters',
+            secondaryLengthUnit: 'kilometers',
+            primaryAreaUnit: 'sqmeters',
+            secondaryAreaUnit: 'hectares'
+        });
+        measureControl.addTo(map);
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+        .innerHTML = '';
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+        .className += ' fas fa-ruler';
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+        }
+        function pop_LithologyA_0(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">OBJECTID</th>\
+                        <td>' + (feature.properties['OBJECTID'] !== null ? autolinker.link(feature.properties['OBJECTID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">LegendCode</th>\
+                        <td>' + (feature.properties['LegendCode'] !== null ? autolinker.link(feature.properties['LegendCode'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">L_CODE</th>\
+                        <td>' + (feature.properties['L_CODE'] !== null ? autolinker.link(feature.properties['L_CODE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Work_CODE</th>\
+                        <td>' + (feature.properties['Work_CODE'] !== null ? autolinker.link(feature.properties['Work_CODE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">LithAgeMap</th>\
+                        <td>' + (feature.properties['LithAgeMap'] !== null ? autolinker.link(feature.properties['LithAgeMap'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">AgeMapInde</th>\
+                        <td>' + (feature.properties['AgeMapInde'] !== null ? autolinker.link(feature.properties['AgeMapInde'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">LithType</th>\
+                        <td>' + (feature.properties['LithType'] !== null ? autolinker.link(feature.properties['LithType'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">LithSubTyp</th>\
+                        <td>' + (feature.properties['LithSubTyp'] !== null ? autolinker.link(feature.properties['LithSubTyp'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">LocalTecto</th>\
+                        <td>' + (feature.properties['LocalTecto'] !== null ? autolinker.link(feature.properties['LocalTecto'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">LocalTec_1</th>\
+                        <td>' + (feature.properties['LocalTec_1'] !== null ? autolinker.link(feature.properties['LocalTec_1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">LocalLithA</th>\
+                        <td>' + (feature.properties['LocalLithA'] !== null ? autolinker.link(feature.properties['LocalLithA'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">LocalLithC</th>\
+                        <td>' + (feature.properties['LocalLithC'] !== null ? autolinker.link(feature.properties['LocalLithC'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">LocalLithU</th>\
+                        <td>' + (feature.properties['LocalLithU'] !== null ? autolinker.link(feature.properties['LocalLithU'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">LocalLithS</th>\
+                        <td>' + (feature.properties['LocalLithS'] !== null ? autolinker.link(feature.properties['LocalLithS'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">LocalLithD</th>\
+                        <td>' + (feature.properties['LocalLithD'] !== null ? autolinker.link(feature.properties['LocalLithD'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Comment</th>\
+                        <td>' + (feature.properties['Comment'] !== null ? autolinker.link(feature.properties['Comment'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">K_CODE</th>\
+                        <td>' + (feature.properties['K_CODE'] !== null ? autolinker.link(feature.properties['K_CODE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">K_Work_COD</th>\
+                        <td>' + (feature.properties['K_Work_COD'] !== null ? autolinker.link(feature.properties['K_Work_COD'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">K_LocalLit</th>\
+                        <td>' + (feature.properties['K_LocalLit'] !== null ? autolinker.link(feature.properties['K_LocalLit'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">SHAPE_Leng</th>\
+                        <td>' + (feature.properties['SHAPE_Leng'] !== null ? autolinker.link(feature.properties['SHAPE_Leng'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">SHAPE_Area</th>\
+                        <td>' + (feature.properties['SHAPE_Area'] !== null ? autolinker.link(feature.properties['SHAPE_Area'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_LithologyA_0_0(feature) {
+            switch(String(feature.properties['LocalLithA'])) {
+                case 'Верхнекарбоновая интрузия':
+                    return {
+                pane: 'pane_LithologyA_0',
+                opacity: 1,
+                color: 'rgba(82,82,82,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(43,181,208,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Верхний и современный отдел четвертичной системы':
+                    return {
+                pane: 'pane_LithologyA_0',
+                opacity: 1,
+                color: 'rgba(82,82,82,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(231,128,50,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Верхний отдел черветричной системы':
+                    return {
+                pane: 'pane_LithologyA_0',
+                opacity: 1,
+                color: 'rgba(82,82,82,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(149,204,100,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Девон. Нижний и средний отделы (нерасчлененный)':
+                    return {
+                pane: 'pane_LithologyA_0',
+                opacity: 1,
+                color: 'rgba(82,82,82,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(214,214,91,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Нижнекарбоновая интрузия':
+                    return {
+                pane: 'pane_LithologyA_0',
+                opacity: 1,
+                color: 'rgba(82,82,82,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(202,87,99,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Силур. Верхний лландоверий':
+                    return {
+                pane: 'pane_LithologyA_0',
+                opacity: 1,
+                color: 'rgba(82,82,82,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(192,28,233,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Силур. Нижний лландоверий':
+                    return {
+                pane: 'pane_LithologyA_0',
+                opacity: 1,
+                color: 'rgba(82,82,82,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(132,162,237,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Соверменный отдел четвертичной системы':
+                    return {
+                pane: 'pane_LithologyA_0',
+                opacity: 1,
+                color: 'rgba(82,82,82,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(231,99,185,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Средний девон (нерасчлененный)':
+                    return {
+                pane: 'pane_LithologyA_0',
+                opacity: 1,
+                color: 'rgba(82,82,82,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(125,207,132,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Средний отдел четвертичной системы':
+                    return {
+                pane: 'pane_LithologyA_0',
+                opacity: 1,
+                color: 'rgba(82,82,82,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(106,71,202,1.0)',
+                interactive: true,
+            }
+                    break;
+                default:
+                    return {
+                pane: 'pane_LithologyA_0',
+                opacity: 1,
+                color: 'rgba(82,82,82,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(105,215,175,1.0)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_LithologyA_0');
+        map.getPane('pane_LithologyA_0').style.zIndex = 400;
+        map.getPane('pane_LithologyA_0').style['mix-blend-mode'] = 'normal';
+        var layer_LithologyA_0 = new L.geoJson(json_LithologyA_0, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_LithologyA_0',
+            layerName: 'layer_LithologyA_0',
+            pane: 'pane_LithologyA_0',
+            onEachFeature: pop_LithologyA_0,
+            style: style_LithologyA_0_0,
+        });
+        bounds_group.addLayer(layer_LithologyA_0);
+        map.addLayer(layer_LithologyA_0);
+        function pop_LithologyA_1(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">OBJECTID</th>\
+                        <td>' + (feature.properties['OBJECTID'] !== null ? autolinker.link(feature.properties['OBJECTID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">LegendCode</th>\
+                        <td>' + (feature.properties['LegendCode'] !== null ? autolinker.link(feature.properties['LegendCode'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">L_CODE</th>\
+                        <td>' + (feature.properties['L_CODE'] !== null ? autolinker.link(feature.properties['L_CODE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Work_CODE</th>\
+                        <td>' + (feature.properties['Work_CODE'] !== null ? autolinker.link(feature.properties['Work_CODE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">LithAgeMap</th>\
+                        <td>' + (feature.properties['LithAgeMap'] !== null ? autolinker.link(feature.properties['LithAgeMap'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">AgeMapInde</th>\
+                        <td>' + (feature.properties['AgeMapInde'] !== null ? autolinker.link(feature.properties['AgeMapInde'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">LithType</th>\
+                        <td>' + (feature.properties['LithType'] !== null ? autolinker.link(feature.properties['LithType'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">LithSubTyp</th>\
+                        <td>' + (feature.properties['LithSubTyp'] !== null ? autolinker.link(feature.properties['LithSubTyp'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">LocalTecto</th>\
+                        <td>' + (feature.properties['LocalTecto'] !== null ? autolinker.link(feature.properties['LocalTecto'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">LocalTec_1</th>\
+                        <td>' + (feature.properties['LocalTec_1'] !== null ? autolinker.link(feature.properties['LocalTec_1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">LocalLithA</th>\
+                        <td>' + (feature.properties['LocalLithA'] !== null ? autolinker.link(feature.properties['LocalLithA'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">LocalLithC</th>\
+                        <td>' + (feature.properties['LocalLithC'] !== null ? autolinker.link(feature.properties['LocalLithC'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">LocalLithU</th>\
+                        <td>' + (feature.properties['LocalLithU'] !== null ? autolinker.link(feature.properties['LocalLithU'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">LocalLithS</th>\
+                        <td>' + (feature.properties['LocalLithS'] !== null ? autolinker.link(feature.properties['LocalLithS'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">LocalLithD</th>\
+                        <td>' + (feature.properties['LocalLithD'] !== null ? autolinker.link(feature.properties['LocalLithD'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Comment</th>\
+                        <td>' + (feature.properties['Comment'] !== null ? autolinker.link(feature.properties['Comment'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">K_CODE</th>\
+                        <td>' + (feature.properties['K_CODE'] !== null ? autolinker.link(feature.properties['K_CODE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">K_Work_COD</th>\
+                        <td>' + (feature.properties['K_Work_COD'] !== null ? autolinker.link(feature.properties['K_Work_COD'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">K_LocalLit</th>\
+                        <td>' + (feature.properties['K_LocalLit'] !== null ? autolinker.link(feature.properties['K_LocalLit'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">SHAPE_Leng</th>\
+                        <td>' + (feature.properties['SHAPE_Leng'] !== null ? autolinker.link(feature.properties['SHAPE_Leng'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">SHAPE_Area</th>\
+                        <td>' + (feature.properties['SHAPE_Area'] !== null ? autolinker.link(feature.properties['SHAPE_Area'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        var pattern_LithologyA_1_0 = new L.StripePattern({
+            weight: 0.3,
+            spaceWeight: 2.0,
+            color: '#e01dc3',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 315
+        });
+        pattern_LithologyA_1_0.addTo(map);
+        var pattern_LithologyA_1_0 = new L.StripePattern({
+            weight: 0.3,
+            spaceWeight: 2.0,
+            color: '#22c89c',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 315
+        });
+        pattern_LithologyA_1_0.addTo(map);
+        var pattern_LithologyA_1_0 = new L.StripePattern({
+            weight: 0.3,
+            spaceWeight: 2.0,
+            color: '#e9c968',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 315
+        });
+        pattern_LithologyA_1_0.addTo(map);
+        var pattern_LithologyA_1_0 = new L.StripePattern({
+            weight: 0.3,
+            spaceWeight: 2.0,
+            color: '#43cf71',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 315
+        });
+        pattern_LithologyA_1_0.addTo(map);
+        var pattern_LithologyA_1_0 = new L.StripePattern({
+            weight: 0.3,
+            spaceWeight: 2.0,
+            color: '#da560f',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 315
+        });
+        pattern_LithologyA_1_0.addTo(map);
+        var pattern_LithologyA_1_0 = new L.StripePattern({
+            weight: 0.3,
+            spaceWeight: 2.0,
+            color: '#16c2dd',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 315
+        });
+        pattern_LithologyA_1_0.addTo(map);
+        var pattern_LithologyA_1_0 = new L.StripePattern({
+            weight: 0.3,
+            spaceWeight: 2.0,
+            color: '#9e27c9',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 315
+        });
+        pattern_LithologyA_1_0.addTo(map);
+        var pattern_LithologyA_1_0 = new L.StripePattern({
+            weight: 0.3,
+            spaceWeight: 2.0,
+            color: '#c8769b',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 315
+        });
+        pattern_LithologyA_1_0.addTo(map);
+        var pattern_LithologyA_1_0 = new L.StripePattern({
+            weight: 0.3,
+            spaceWeight: 2.0,
+            color: '#2f7cd5',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 315
+        });
+        pattern_LithologyA_1_0.addTo(map);
+        var pattern_LithologyA_1_0 = new L.StripePattern({
+            weight: 0.3,
+            spaceWeight: 2.0,
+            color: '#d1e35d',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 315
+        });
+        pattern_LithologyA_1_0.addTo(map);
+        var pattern_LithologyA_1_0 = new L.StripePattern({
+            weight: 0.3,
+            spaceWeight: 2.0,
+            color: '#76d56f',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 315
+        });
+        pattern_LithologyA_1_0.addTo(map);
+        var pattern_LithologyA_1_0 = new L.StripePattern({
+            weight: 0.3,
+            spaceWeight: 2.0,
+            color: '#ef434c',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 315
+        });
+        pattern_LithologyA_1_0.addTo(map);
+        var pattern_LithologyA_1_0 = new L.StripePattern({
+            weight: 0.3,
+            spaceWeight: 2.0,
+            color: '#844fed',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 315
+        });
+        pattern_LithologyA_1_0.addTo(map);
+        var pattern_LithologyA_1_0 = new L.StripePattern({
+            weight: 0.3,
+            spaceWeight: 2.0,
+            color: '#5e67e9',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 315
+        });
+        pattern_LithologyA_1_0.addTo(map);
+        var pattern_LithologyA_1_0 = new L.StripePattern({
+            weight: 0.3,
+            spaceWeight: 2.0,
+            color: '#8ee542',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 315
+        });
+        pattern_LithologyA_1_0.addTo(map);
+        var pattern_LithologyA_1_1 = new L.StripePattern({
+            weight: 0.3,
+            spaceWeight: 2.0,
+            color: '#e01dc3',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 225
+        });
+        pattern_LithologyA_1_1.addTo(map);
+        var pattern_LithologyA_1_1 = new L.StripePattern({
+            weight: 0.3,
+            spaceWeight: 2.0,
+            color: '#22c89c',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 225
+        });
+        pattern_LithologyA_1_1.addTo(map);
+        var pattern_LithologyA_1_1 = new L.StripePattern({
+            weight: 0.3,
+            spaceWeight: 2.0,
+            color: '#e9c968',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 225
+        });
+        pattern_LithologyA_1_1.addTo(map);
+        var pattern_LithologyA_1_1 = new L.StripePattern({
+            weight: 0.3,
+            spaceWeight: 2.0,
+            color: '#43cf71',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 225
+        });
+        pattern_LithologyA_1_1.addTo(map);
+        var pattern_LithologyA_1_1 = new L.StripePattern({
+            weight: 0.3,
+            spaceWeight: 2.0,
+            color: '#da560f',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 225
+        });
+        pattern_LithologyA_1_1.addTo(map);
+        var pattern_LithologyA_1_1 = new L.StripePattern({
+            weight: 0.3,
+            spaceWeight: 2.0,
+            color: '#16c2dd',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 225
+        });
+        pattern_LithologyA_1_1.addTo(map);
+        var pattern_LithologyA_1_1 = new L.StripePattern({
+            weight: 0.3,
+            spaceWeight: 2.0,
+            color: '#9e27c9',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 225
+        });
+        pattern_LithologyA_1_1.addTo(map);
+        var pattern_LithologyA_1_1 = new L.StripePattern({
+            weight: 0.3,
+            spaceWeight: 2.0,
+            color: '#c8769b',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 225
+        });
+        pattern_LithologyA_1_1.addTo(map);
+        var pattern_LithologyA_1_1 = new L.StripePattern({
+            weight: 0.3,
+            spaceWeight: 2.0,
+            color: '#2f7cd5',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 225
+        });
+        pattern_LithologyA_1_1.addTo(map);
+        var pattern_LithologyA_1_1 = new L.StripePattern({
+            weight: 0.3,
+            spaceWeight: 2.0,
+            color: '#d1e35d',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 225
+        });
+        pattern_LithologyA_1_1.addTo(map);
+        var pattern_LithologyA_1_1 = new L.StripePattern({
+            weight: 0.3,
+            spaceWeight: 2.0,
+            color: '#76d56f',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 225
+        });
+        pattern_LithologyA_1_1.addTo(map);
+        var pattern_LithologyA_1_1 = new L.StripePattern({
+            weight: 0.3,
+            spaceWeight: 2.0,
+            color: '#ef434c',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 225
+        });
+        pattern_LithologyA_1_1.addTo(map);
+        var pattern_LithologyA_1_1 = new L.StripePattern({
+            weight: 0.3,
+            spaceWeight: 2.0,
+            color: '#844fed',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 225
+        });
+        pattern_LithologyA_1_1.addTo(map);
+        var pattern_LithologyA_1_1 = new L.StripePattern({
+            weight: 0.3,
+            spaceWeight: 2.0,
+            color: '#5e67e9',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 225
+        });
+        pattern_LithologyA_1_1.addTo(map);
+        var pattern_LithologyA_1_1 = new L.StripePattern({
+            weight: 0.3,
+            spaceWeight: 2.0,
+            color: '#8ee542',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 225
+        });
+        pattern_LithologyA_1_1.addTo(map);
+        var pattern_LithologyA_1_0 = new L.StripePattern({
+            weight: 0.3,
+            spaceWeight: 2.0,
+            color: '#e01dc3',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 315
+        });
+        pattern_LithologyA_1_0.addTo(map);
+        var pattern_LithologyA_1_0 = new L.StripePattern({
+            weight: 0.3,
+            spaceWeight: 2.0,
+            color: '#22c89c',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 315
+        });
+        pattern_LithologyA_1_0.addTo(map);
+        var pattern_LithologyA_1_0 = new L.StripePattern({
+            weight: 0.3,
+            spaceWeight: 2.0,
+            color: '#e9c968',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 315
+        });
+        pattern_LithologyA_1_0.addTo(map);
+        var pattern_LithologyA_1_0 = new L.StripePattern({
+            weight: 0.3,
+            spaceWeight: 2.0,
+            color: '#43cf71',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 315
+        });
+        pattern_LithologyA_1_0.addTo(map);
+        var pattern_LithologyA_1_0 = new L.StripePattern({
+            weight: 0.3,
+            spaceWeight: 2.0,
+            color: '#da560f',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 315
+        });
+        pattern_LithologyA_1_0.addTo(map);
+        var pattern_LithologyA_1_0 = new L.StripePattern({
+            weight: 0.3,
+            spaceWeight: 2.0,
+            color: '#16c2dd',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 315
+        });
+        pattern_LithologyA_1_0.addTo(map);
+        var pattern_LithologyA_1_0 = new L.StripePattern({
+            weight: 0.3,
+            spaceWeight: 2.0,
+            color: '#9e27c9',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 315
+        });
+        pattern_LithologyA_1_0.addTo(map);
+        var pattern_LithologyA_1_0 = new L.StripePattern({
+            weight: 0.3,
+            spaceWeight: 2.0,
+            color: '#c8769b',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 315
+        });
+        pattern_LithologyA_1_0.addTo(map);
+        var pattern_LithologyA_1_0 = new L.StripePattern({
+            weight: 0.3,
+            spaceWeight: 2.0,
+            color: '#2f7cd5',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 315
+        });
+        pattern_LithologyA_1_0.addTo(map);
+        var pattern_LithologyA_1_0 = new L.StripePattern({
+            weight: 0.3,
+            spaceWeight: 2.0,
+            color: '#d1e35d',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 315
+        });
+        pattern_LithologyA_1_0.addTo(map);
+        var pattern_LithologyA_1_0 = new L.StripePattern({
+            weight: 0.3,
+            spaceWeight: 2.0,
+            color: '#76d56f',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 315
+        });
+        pattern_LithologyA_1_0.addTo(map);
+        var pattern_LithologyA_1_0 = new L.StripePattern({
+            weight: 0.3,
+            spaceWeight: 2.0,
+            color: '#ef434c',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 315
+        });
+        pattern_LithologyA_1_0.addTo(map);
+        var pattern_LithologyA_1_0 = new L.StripePattern({
+            weight: 0.3,
+            spaceWeight: 2.0,
+            color: '#844fed',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 315
+        });
+        pattern_LithologyA_1_0.addTo(map);
+        var pattern_LithologyA_1_0 = new L.StripePattern({
+            weight: 0.3,
+            spaceWeight: 2.0,
+            color: '#5e67e9',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 315
+        });
+        pattern_LithologyA_1_0.addTo(map);
+        var pattern_LithologyA_1_0 = new L.StripePattern({
+            weight: 0.3,
+            spaceWeight: 2.0,
+            color: '#8ee542',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 315
+        });
+        pattern_LithologyA_1_0.addTo(map);
+        var pattern_LithologyA_1_1 = new L.StripePattern({
+            weight: 0.3,
+            spaceWeight: 2.0,
+            color: '#e01dc3',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 225
+        });
+        pattern_LithologyA_1_1.addTo(map);
+        var pattern_LithologyA_1_1 = new L.StripePattern({
+            weight: 0.3,
+            spaceWeight: 2.0,
+            color: '#22c89c',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 225
+        });
+        pattern_LithologyA_1_1.addTo(map);
+        var pattern_LithologyA_1_1 = new L.StripePattern({
+            weight: 0.3,
+            spaceWeight: 2.0,
+            color: '#e9c968',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 225
+        });
+        pattern_LithologyA_1_1.addTo(map);
+        var pattern_LithologyA_1_1 = new L.StripePattern({
+            weight: 0.3,
+            spaceWeight: 2.0,
+            color: '#43cf71',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 225
+        });
+        pattern_LithologyA_1_1.addTo(map);
+        var pattern_LithologyA_1_1 = new L.StripePattern({
+            weight: 0.3,
+            spaceWeight: 2.0,
+            color: '#da560f',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 225
+        });
+        pattern_LithologyA_1_1.addTo(map);
+        var pattern_LithologyA_1_1 = new L.StripePattern({
+            weight: 0.3,
+            spaceWeight: 2.0,
+            color: '#16c2dd',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 225
+        });
+        pattern_LithologyA_1_1.addTo(map);
+        var pattern_LithologyA_1_1 = new L.StripePattern({
+            weight: 0.3,
+            spaceWeight: 2.0,
+            color: '#9e27c9',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 225
+        });
+        pattern_LithologyA_1_1.addTo(map);
+        var pattern_LithologyA_1_1 = new L.StripePattern({
+            weight: 0.3,
+            spaceWeight: 2.0,
+            color: '#c8769b',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 225
+        });
+        pattern_LithologyA_1_1.addTo(map);
+        var pattern_LithologyA_1_1 = new L.StripePattern({
+            weight: 0.3,
+            spaceWeight: 2.0,
+            color: '#2f7cd5',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 225
+        });
+        pattern_LithologyA_1_1.addTo(map);
+        var pattern_LithologyA_1_1 = new L.StripePattern({
+            weight: 0.3,
+            spaceWeight: 2.0,
+            color: '#d1e35d',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 225
+        });
+        pattern_LithologyA_1_1.addTo(map);
+        var pattern_LithologyA_1_1 = new L.StripePattern({
+            weight: 0.3,
+            spaceWeight: 2.0,
+            color: '#76d56f',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 225
+        });
+        pattern_LithologyA_1_1.addTo(map);
+        var pattern_LithologyA_1_1 = new L.StripePattern({
+            weight: 0.3,
+            spaceWeight: 2.0,
+            color: '#ef434c',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 225
+        });
+        pattern_LithologyA_1_1.addTo(map);
+        var pattern_LithologyA_1_1 = new L.StripePattern({
+            weight: 0.3,
+            spaceWeight: 2.0,
+            color: '#844fed',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 225
+        });
+        pattern_LithologyA_1_1.addTo(map);
+        var pattern_LithologyA_1_1 = new L.StripePattern({
+            weight: 0.3,
+            spaceWeight: 2.0,
+            color: '#5e67e9',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 225
+        });
+        pattern_LithologyA_1_1.addTo(map);
+        var pattern_LithologyA_1_1 = new L.StripePattern({
+            weight: 0.3,
+            spaceWeight: 2.0,
+            color: '#8ee542',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 225
+        });
+        pattern_LithologyA_1_1.addTo(map);
+        var pattern_LithologyA_1_0 = new L.StripePattern({
+            weight: 0.3,
+            spaceWeight: 2.0,
+            color: '#e01dc3',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 315
+        });
+        pattern_LithologyA_1_0.addTo(map);
+        var pattern_LithologyA_1_0 = new L.StripePattern({
+            weight: 0.3,
+            spaceWeight: 2.0,
+            color: '#22c89c',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 315
+        });
+        pattern_LithologyA_1_0.addTo(map);
+        var pattern_LithologyA_1_0 = new L.StripePattern({
+            weight: 0.3,
+            spaceWeight: 2.0,
+            color: '#e9c968',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 315
+        });
+        pattern_LithologyA_1_0.addTo(map);
+        var pattern_LithologyA_1_0 = new L.StripePattern({
+            weight: 0.3,
+            spaceWeight: 2.0,
+            color: '#43cf71',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 315
+        });
+        pattern_LithologyA_1_0.addTo(map);
+        var pattern_LithologyA_1_0 = new L.StripePattern({
+            weight: 0.3,
+            spaceWeight: 2.0,
+            color: '#da560f',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 315
+        });
+        pattern_LithologyA_1_0.addTo(map);
+        var pattern_LithologyA_1_0 = new L.StripePattern({
+            weight: 0.3,
+            spaceWeight: 2.0,
+            color: '#16c2dd',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 315
+        });
+        pattern_LithologyA_1_0.addTo(map);
+        var pattern_LithologyA_1_0 = new L.StripePattern({
+            weight: 0.3,
+            spaceWeight: 2.0,
+            color: '#9e27c9',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 315
+        });
+        pattern_LithologyA_1_0.addTo(map);
+        var pattern_LithologyA_1_0 = new L.StripePattern({
+            weight: 0.3,
+            spaceWeight: 2.0,
+            color: '#c8769b',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 315
+        });
+        pattern_LithologyA_1_0.addTo(map);
+        var pattern_LithologyA_1_0 = new L.StripePattern({
+            weight: 0.3,
+            spaceWeight: 2.0,
+            color: '#2f7cd5',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 315
+        });
+        pattern_LithologyA_1_0.addTo(map);
+        var pattern_LithologyA_1_0 = new L.StripePattern({
+            weight: 0.3,
+            spaceWeight: 2.0,
+            color: '#d1e35d',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 315
+        });
+        pattern_LithologyA_1_0.addTo(map);
+        var pattern_LithologyA_1_0 = new L.StripePattern({
+            weight: 0.3,
+            spaceWeight: 2.0,
+            color: '#76d56f',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 315
+        });
+        pattern_LithologyA_1_0.addTo(map);
+        var pattern_LithologyA_1_0 = new L.StripePattern({
+            weight: 0.3,
+            spaceWeight: 2.0,
+            color: '#ef434c',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 315
+        });
+        pattern_LithologyA_1_0.addTo(map);
+        var pattern_LithologyA_1_0 = new L.StripePattern({
+            weight: 0.3,
+            spaceWeight: 2.0,
+            color: '#844fed',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 315
+        });
+        pattern_LithologyA_1_0.addTo(map);
+        var pattern_LithologyA_1_0 = new L.StripePattern({
+            weight: 0.3,
+            spaceWeight: 2.0,
+            color: '#5e67e9',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 315
+        });
+        pattern_LithologyA_1_0.addTo(map);
+        var pattern_LithologyA_1_0 = new L.StripePattern({
+            weight: 0.3,
+            spaceWeight: 2.0,
+            color: '#8ee542',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 315
+        });
+        pattern_LithologyA_1_0.addTo(map);
+        function style_LithologyA_1_0(feature) {
+            switch(String(feature.properties['LocalLithD'])) {
+                case 'Граниты и гранодиориты, среднезернистые до крупнозернистых':
+                    return {
+                pane: 'pane_LithologyA_1',
+                stroke: false,
+                fillOpacity: 1,
+                fillPattern: pattern_LithologyA_1_0,
+                interactive: true,
+            }
+                    break;
+                case 'Граниты мелкозернистые аплитовидные':
+                    return {
+                pane: 'pane_LithologyA_1',
+                stroke: false,
+                fillOpacity: 1,
+                fillPattern: pattern_LithologyA_1_0,
+                interactive: true,
+            }
+                    break;
+                case 'Дайки кислого состава':
+                    return {
+                pane: 'pane_LithologyA_1',
+                stroke: false,
+                fillOpacity: 1,
+                fillPattern: pattern_LithologyA_1_0,
+                interactive: true,
+            }
+                    break;
+                case 'Конгломерат-песчаниковая свита. Песчаники, конгломератовидные песчаники, мелкообломочные и пепловые туфы кислого состава, кварцесодержа':
+                    return {
+                pane: 'pane_LithologyA_1',
+                stroke: false,
+                fillOpacity: 1,
+                fillPattern: pattern_LithologyA_1_0,
+                interactive: true,
+            }
+                    break;
+                case 'Лавы, туфолавы, туфы кварцевых порфиров, реже средн. И смешан. Сост. Кварцсод. Порф-ты':
+                    return {
+                pane: 'pane_LithologyA_1',
+                stroke: false,
+                fillOpacity: 1,
+                fillPattern: pattern_LithologyA_1_0,
+                interactive: true,
+            }
+                    break;
+                case 'Малые интрущии и дайкообразные тела порфировидных мелкозернистых гранитов':
+                    return {
+                pane: 'pane_LithologyA_1',
+                stroke: false,
+                fillOpacity: 1,
+                fillPattern: pattern_LithologyA_1_0,
+                interactive: true,
+            }
+                    break;
+                case 'Отложения 1-ой надпойменной террасы':
+                    return {
+                pane: 'pane_LithologyA_1',
+                stroke: false,
+                fillOpacity: 1,
+                fillPattern: pattern_LithologyA_1_0,
+                interactive: true,
+            }
+                    break;
+                case 'Отложения русел рек, пойменной и высокой террас: пески, суглинки, галечники':
+                    return {
+                pane: 'pane_LithologyA_1',
+                stroke: false,
+                fillOpacity: 1,
+                fillPattern: pattern_LithologyA_1_0,
+                interactive: true,
+            }
+                    break;
+                case 'Пески с галькой и гравием':
+                    return {
+                pane: 'pane_LithologyA_1',
+                stroke: false,
+                fillOpacity: 1,
+                fillPattern: pattern_LithologyA_1_0,
+                interactive: true,
+            }
+                    break;
+                case 'Пески, супесь, щебень':
+                    return {
+                pane: 'pane_LithologyA_1',
+                stroke: false,
+                fillOpacity: 1,
+                fillPattern: pattern_LithologyA_1_0,
+                interactive: true,
+            }
+                    break;
+                case 'Сухие такыры, тонкие глины':
+                    return {
+                pane: 'pane_LithologyA_1',
+                stroke: false,
+                fillOpacity: 1,
+                fillPattern: pattern_LithologyA_1_0,
+                interactive: true,
+            }
+                    break;
+                case 'Туфо-алевролитовая свита. Алевролиты, туфоалевролиты, пепловые туфы кислого и смешанного состава':
+                    return {
+                pane: 'pane_LithologyA_1',
+                stroke: false,
+                fillOpacity: 1,
+                fillPattern: pattern_LithologyA_1_0,
+                interactive: true,
+            }
+                    break;
+                case 'Туфобрекчии, туфолавы, туфы кварцевых порфиров.':
+                    return {
+                pane: 'pane_LithologyA_1',
+                stroke: false,
+                fillOpacity: 1,
+                fillPattern: pattern_LithologyA_1_0,
+                interactive: true,
+            }
+                    break;
+                case 'Туфолавы и туфы кварцевых порфиров':
+                    return {
+                pane: 'pane_LithologyA_1',
+                stroke: false,
+                fillOpacity: 1,
+                fillPattern: pattern_LithologyA_1_0,
+                interactive: true,
+            }
+                    break;
+                default:
+                    return {
+                pane: 'pane_LithologyA_1',
+                stroke: false,
+                fillOpacity: 1,
+                fillPattern: pattern_LithologyA_1_0,
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        function style_LithologyA_1_1(feature) {
+            switch(String(feature.properties['LocalLithD'])) {
+                case 'Граниты и гранодиориты, среднезернистые до крупнозернистых':
+                    return {
+                pane: 'pane_LithologyA_1',
+                stroke: false,
+                fillOpacity: 1,
+                fillPattern: pattern_LithologyA_1_1,
+                interactive: true,
+            }
+                    break;
+                case 'Граниты мелкозернистые аплитовидные':
+                    return {
+                pane: 'pane_LithologyA_1',
+                stroke: false,
+                fillOpacity: 1,
+                fillPattern: pattern_LithologyA_1_1,
+                interactive: true,
+            }
+                    break;
+                case 'Дайки кислого состава':
+                    return {
+                pane: 'pane_LithologyA_1',
+                stroke: false,
+                fillOpacity: 1,
+                fillPattern: pattern_LithologyA_1_1,
+                interactive: true,
+            }
+                    break;
+                case 'Конгломерат-песчаниковая свита. Песчаники, конгломератовидные песчаники, мелкообломочные и пепловые туфы кислого состава, кварцесодержа':
+                    return {
+                pane: 'pane_LithologyA_1',
+                stroke: false,
+                fillOpacity: 1,
+                fillPattern: pattern_LithologyA_1_1,
+                interactive: true,
+            }
+                    break;
+                case 'Лавы, туфолавы, туфы кварцевых порфиров, реже средн. И смешан. Сост. Кварцсод. Порф-ты':
+                    return {
+                pane: 'pane_LithologyA_1',
+                stroke: false,
+                fillOpacity: 1,
+                fillPattern: pattern_LithologyA_1_1,
+                interactive: true,
+            }
+                    break;
+                case 'Малые интрущии и дайкообразные тела порфировидных мелкозернистых гранитов':
+                    return {
+                pane: 'pane_LithologyA_1',
+                stroke: false,
+                fillOpacity: 1,
+                fillPattern: pattern_LithologyA_1_1,
+                interactive: true,
+            }
+                    break;
+                case 'Отложения 1-ой надпойменной террасы':
+                    return {
+                pane: 'pane_LithologyA_1',
+                stroke: false,
+                fillOpacity: 1,
+                fillPattern: pattern_LithologyA_1_1,
+                interactive: true,
+            }
+                    break;
+                case 'Отложения русел рек, пойменной и высокой террас: пески, суглинки, галечники':
+                    return {
+                pane: 'pane_LithologyA_1',
+                stroke: false,
+                fillOpacity: 1,
+                fillPattern: pattern_LithologyA_1_1,
+                interactive: true,
+            }
+                    break;
+                case 'Пески с галькой и гравием':
+                    return {
+                pane: 'pane_LithologyA_1',
+                stroke: false,
+                fillOpacity: 1,
+                fillPattern: pattern_LithologyA_1_1,
+                interactive: true,
+            }
+                    break;
+                case 'Пески, супесь, щебень':
+                    return {
+                pane: 'pane_LithologyA_1',
+                stroke: false,
+                fillOpacity: 1,
+                fillPattern: pattern_LithologyA_1_1,
+                interactive: true,
+            }
+                    break;
+                case 'Сухие такыры, тонкие глины':
+                    return {
+                pane: 'pane_LithologyA_1',
+                stroke: false,
+                fillOpacity: 1,
+                fillPattern: pattern_LithologyA_1_1,
+                interactive: true,
+            }
+                    break;
+                case 'Туфо-алевролитовая свита. Алевролиты, туфоалевролиты, пепловые туфы кислого и смешанного состава':
+                    return {
+                pane: 'pane_LithologyA_1',
+                stroke: false,
+                fillOpacity: 1,
+                fillPattern: pattern_LithologyA_1_1,
+                interactive: true,
+            }
+                    break;
+                case 'Туфобрекчии, туфолавы, туфы кварцевых порфиров.':
+                    return {
+                pane: 'pane_LithologyA_1',
+                stroke: false,
+                fillOpacity: 1,
+                fillPattern: pattern_LithologyA_1_1,
+                interactive: true,
+            }
+                    break;
+                case 'Туфолавы и туфы кварцевых порфиров':
+                    return {
+                pane: 'pane_LithologyA_1',
+                stroke: false,
+                fillOpacity: 1,
+                fillPattern: pattern_LithologyA_1_1,
+                interactive: true,
+            }
+                    break;
+                default:
+                    return {
+                pane: 'pane_LithologyA_1',
+                stroke: false,
+                fillOpacity: 1,
+                fillPattern: pattern_LithologyA_1_1,
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        function style_LithologyA_1_2(feature) {
+            switch(String(feature.properties['LocalLithD'])) {
+                case 'Граниты и гранодиориты, среднезернистые до крупнозернистых':
+                    return {
+                pane: 'pane_LithologyA_1',
+                opacity: 1,
+                color: 'rgba(224,29,195,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Граниты мелкозернистые аплитовидные':
+                    return {
+                pane: 'pane_LithologyA_1',
+                opacity: 1,
+                color: 'rgba(34,200,156,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Дайки кислого состава':
+                    return {
+                pane: 'pane_LithologyA_1',
+                opacity: 1,
+                color: 'rgba(233,201,104,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Конгломерат-песчаниковая свита. Песчаники, конгломератовидные песчаники, мелкообломочные и пепловые туфы кислого состава, кварцесодержа':
+                    return {
+                pane: 'pane_LithologyA_1',
+                opacity: 1,
+                color: 'rgba(67,207,113,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Лавы, туфолавы, туфы кварцевых порфиров, реже средн. И смешан. Сост. Кварцсод. Порф-ты':
+                    return {
+                pane: 'pane_LithologyA_1',
+                opacity: 1,
+                color: 'rgba(218,86,15,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Малые интрущии и дайкообразные тела порфировидных мелкозернистых гранитов':
+                    return {
+                pane: 'pane_LithologyA_1',
+                opacity: 1,
+                color: 'rgba(22,194,221,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Отложения 1-ой надпойменной террасы':
+                    return {
+                pane: 'pane_LithologyA_1',
+                opacity: 1,
+                color: 'rgba(158,39,201,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Отложения русел рек, пойменной и высокой террас: пески, суглинки, галечники':
+                    return {
+                pane: 'pane_LithologyA_1',
+                opacity: 1,
+                color: 'rgba(200,118,155,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Пески с галькой и гравием':
+                    return {
+                pane: 'pane_LithologyA_1',
+                opacity: 1,
+                color: 'rgba(47,124,213,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Пески, супесь, щебень':
+                    return {
+                pane: 'pane_LithologyA_1',
+                opacity: 1,
+                color: 'rgba(209,227,93,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Сухие такыры, тонкие глины':
+                    return {
+                pane: 'pane_LithologyA_1',
+                opacity: 1,
+                color: 'rgba(118,213,111,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Туфо-алевролитовая свита. Алевролиты, туфоалевролиты, пепловые туфы кислого и смешанного состава':
+                    return {
+                pane: 'pane_LithologyA_1',
+                opacity: 1,
+                color: 'rgba(239,67,76,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Туфобрекчии, туфолавы, туфы кварцевых порфиров.':
+                    return {
+                pane: 'pane_LithologyA_1',
+                opacity: 1,
+                color: 'rgba(132,79,237,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Туфолавы и туфы кварцевых порфиров':
+                    return {
+                pane: 'pane_LithologyA_1',
+                opacity: 1,
+                color: 'rgba(94,103,233,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                default:
+                    return {
+                pane: 'pane_LithologyA_1',
+                opacity: 1,
+                color: 'rgba(142,229,66,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_LithologyA_1');
+        map.getPane('pane_LithologyA_1').style.zIndex = 401;
+        map.getPane('pane_LithologyA_1').style['mix-blend-mode'] = 'normal';
+        var layer_LithologyA_1 = new L.geoJson.multiStyle(json_LithologyA_1, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_LithologyA_1',
+            layerName: 'layer_LithologyA_1',
+            pane: 'pane_LithologyA_1',
+            onEachFeature: pop_LithologyA_1,
+            styles: [style_LithologyA_1_0,style_LithologyA_1_1,style_LithologyA_1_2,]
+        });
+        bounds_group.addLayer(layer_LithologyA_1);
+        map.addLayer(layer_LithologyA_1);
+        function pop_LithologyA_2(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">OBJECTID</th>\
+                        <td>' + (feature.properties['OBJECTID'] !== null ? autolinker.link(feature.properties['OBJECTID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">LegendCode</th>\
+                        <td>' + (feature.properties['LegendCode'] !== null ? autolinker.link(feature.properties['LegendCode'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">L_CODE</th>\
+                        <td>' + (feature.properties['L_CODE'] !== null ? autolinker.link(feature.properties['L_CODE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Work_CODE</th>\
+                        <td>' + (feature.properties['Work_CODE'] !== null ? autolinker.link(feature.properties['Work_CODE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">LithAgeMap</th>\
+                        <td>' + (feature.properties['LithAgeMap'] !== null ? autolinker.link(feature.properties['LithAgeMap'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">AgeMapInde</th>\
+                        <td>' + (feature.properties['AgeMapInde'] !== null ? autolinker.link(feature.properties['AgeMapInde'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">LithType</th>\
+                        <td>' + (feature.properties['LithType'] !== null ? autolinker.link(feature.properties['LithType'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">LithSubTyp</th>\
+                        <td>' + (feature.properties['LithSubTyp'] !== null ? autolinker.link(feature.properties['LithSubTyp'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">LocalTecto</th>\
+                        <td>' + (feature.properties['LocalTecto'] !== null ? autolinker.link(feature.properties['LocalTecto'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">LocalTec_1</th>\
+                        <td>' + (feature.properties['LocalTec_1'] !== null ? autolinker.link(feature.properties['LocalTec_1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">LocalLithA</th>\
+                        <td>' + (feature.properties['LocalLithA'] !== null ? autolinker.link(feature.properties['LocalLithA'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">LocalLithC</th>\
+                        <td>' + (feature.properties['LocalLithC'] !== null ? autolinker.link(feature.properties['LocalLithC'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">LocalLithU</th>\
+                        <td>' + (feature.properties['LocalLithU'] !== null ? autolinker.link(feature.properties['LocalLithU'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">LocalLithS</th>\
+                        <td>' + (feature.properties['LocalLithS'] !== null ? autolinker.link(feature.properties['LocalLithS'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">LocalLithD</th>\
+                        <td>' + (feature.properties['LocalLithD'] !== null ? autolinker.link(feature.properties['LocalLithD'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Comment</th>\
+                        <td>' + (feature.properties['Comment'] !== null ? autolinker.link(feature.properties['Comment'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">K_CODE</th>\
+                        <td>' + (feature.properties['K_CODE'] !== null ? autolinker.link(feature.properties['K_CODE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">K_Work_COD</th>\
+                        <td>' + (feature.properties['K_Work_COD'] !== null ? autolinker.link(feature.properties['K_Work_COD'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">K_LocalLit</th>\
+                        <td>' + (feature.properties['K_LocalLit'] !== null ? autolinker.link(feature.properties['K_LocalLit'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">SHAPE_Leng</th>\
+                        <td>' + (feature.properties['SHAPE_Leng'] !== null ? autolinker.link(feature.properties['SHAPE_Leng'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">SHAPE_Area</th>\
+                        <td>' + (feature.properties['SHAPE_Area'] !== null ? autolinker.link(feature.properties['SHAPE_Area'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_LithologyA_2_0(feature) {
+            switch(String(feature.properties['LocalLithS'])) {
+                case 'Сарыкумская свита':
+                    return {
+                pane: 'pane_LithologyA_2',
+                interactive: true,
+            }
+                    break;
+                case 'Уйтасская свита. Верхняя подсвита':
+                    return {
+                pane: 'pane_LithologyA_2',
+                interactive: true,
+            }
+                    break;
+                case 'Уйтасская свита. Нижняя подсвита':
+                    return {
+                pane: 'pane_LithologyA_2',
+                interactive: true,
+            }
+                    break;
+                default:
+                    return {
+                pane: 'pane_LithologyA_2',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        function style_LithologyA_2_1(feature) {
+            switch(String(feature.properties['LocalLithS'])) {
+                case 'Сарыкумская свита':
+                    return {
+                pane: 'pane_LithologyA_2',
+                opacity: 1,
+                color: 'rgba(169,54,215,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 1.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Уйтасская свита. Верхняя подсвита':
+                    return {
+                pane: 'pane_LithologyA_2',
+                opacity: 1,
+                color: 'rgba(121,212,237,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 1.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Уйтасская свита. Нижняя подсвита':
+                    return {
+                pane: 'pane_LithologyA_2',
+                opacity: 1,
+                color: 'rgba(149,218,121,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 1.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                default:
+                    return {
+                pane: 'pane_LithologyA_2',
+                opacity: 1,
+                color: 'rgba(239,108,71,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 1.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_LithologyA_2');
+        map.getPane('pane_LithologyA_2').style.zIndex = 402;
+        map.getPane('pane_LithologyA_2').style['mix-blend-mode'] = 'normal';
+        var layer_LithologyA_2 = new L.geoJson.multiStyle(json_LithologyA_2, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_LithologyA_2',
+            layerName: 'layer_LithologyA_2',
+            pane: 'pane_LithologyA_2',
+            onEachFeature: pop_LithologyA_2,
+            styles: [style_LithologyA_2_0,style_LithologyA_2_1,]
+        });
+        bounds_group.addLayer(layer_LithologyA_2);
+        map.addLayer(layer_LithologyA_2);
+        function pop_Faults_3(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">OBJECTID</th>\
+                        <td>' + (feature.properties['OBJECTID'] !== null ? autolinker.link(feature.properties['OBJECTID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">LegendCode</th>\
+                        <td>' + (feature.properties['LegendCode'] !== null ? autolinker.link(feature.properties['LegendCode'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">L_CODE</th>\
+                        <td>' + (feature.properties['L_CODE'] !== null ? autolinker.link(feature.properties['L_CODE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Work_CODE</th>\
+                        <td>' + (feature.properties['Work_CODE'] !== null ? autolinker.link(feature.properties['Work_CODE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">TYPE</th>\
+                        <td>' + (feature.properties['TYPE'] !== null ? autolinker.link(feature.properties['TYPE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">SubType</th>\
+                        <td>' + (feature.properties['SubType'] !== null ? autolinker.link(feature.properties['SubType'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">LocDescrip</th>\
+                        <td>' + (feature.properties['LocDescrip'] !== null ? autolinker.link(feature.properties['LocDescrip'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">SHAPE_Leng</th>\
+                        <td>' + (feature.properties['SHAPE_Leng'] !== null ? autolinker.link(feature.properties['SHAPE_Leng'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Faults_3_0(feature) {
+            switch(String(feature.properties['LocDescrip'])) {
+                case 'Тектонические нарушения предполагаемые':
+                    return {
+                pane: 'pane_Faults_3',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 8.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Тектонические нарушения прослеженные':
+                    return {
+                pane: 'pane_Faults_3',
+                opacity: 1,
+                color: 'rgba(227,26,28,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 8.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                default:
+                    return {
+                pane: 'pane_Faults_3',
+                opacity: 1,
+                color: 'rgba(178,218,126,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 1.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_Faults_3');
+        map.getPane('pane_Faults_3').style.zIndex = 403;
+        map.getPane('pane_Faults_3').style['mix-blend-mode'] = 'normal';
+        var layer_Faults_3 = new L.geoJson(json_Faults_3, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Faults_3',
+            layerName: 'layer_Faults_3',
+            pane: 'pane_Faults_3',
+            onEachFeature: pop_Faults_3,
+            style: style_Faults_3_0,
+        });
+        bounds_group.addLayer(layer_Faults_3);
+        map.addLayer(layer_Faults_3);
+        var osmGeocoder = new L.Control.Geocoder({
+            collapsed: true,
+            position: 'topleft',
+            text: 'Search',
+            title: 'Testing'
+        }).addTo(map);
+        document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
+        .className += ' fa fa-search';
+        document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
+        .title += 'Search for a place';
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'Faults<br /><table><tr><td style="text-align: center;"><img src="legend/Faults_3_Тектоническиенарушенияпредполагаемые0.png" /></td><td>Тектонические нарушения предполагаемые</td></tr><tr><td style="text-align: center;"><img src="legend/Faults_3_Тектоническиенарушенияпрослеженные1.png" /></td><td>Тектонические нарушения прослеженные</td></tr><tr><td style="text-align: center;"><img src="legend/Faults_3_2.png" /></td><td></td></tr></table>': layer_Faults_3,'LithologyA<br /><table><tr><td style="text-align: center;"><img src="legend/LithologyA_2_Сарыкумскаясвита0.png" /></td><td>Сарыкумская свита</td></tr><tr><td style="text-align: center;"><img src="legend/LithologyA_2_УйтасскаясвитаВерхняяподсвита1.png" /></td><td>Уйтасская свита. Верхняя подсвита</td></tr><tr><td style="text-align: center;"><img src="legend/LithologyA_2_УйтасскаясвитаНижняяподсвита2.png" /></td><td>Уйтасская свита. Нижняя подсвита</td></tr><tr><td style="text-align: center;"><img src="legend/LithologyA_2_3.png" /></td><td></td></tr></table>': layer_LithologyA_2,'LithologyA<br /><table><tr><td style="text-align: center;"><img src="legend/LithologyA_1_Гранитыигранодиоритысреднезернистыедокрупнозернистых0.png" /></td><td>Граниты и гранодиориты, среднезернистые до крупнозернистых</td></tr><tr><td style="text-align: center;"><img src="legend/LithologyA_1_Гранитымелкозернистыеаплитовидные1.png" /></td><td>Граниты мелкозернистые аплитовидные</td></tr><tr><td style="text-align: center;"><img src="legend/LithologyA_1_Дайкикислогосостава2.png" /></td><td>Дайки кислого состава</td></tr><tr><td style="text-align: center;"><img src="legend/LithologyA_1_КонгломератпесчаниковаясвитаПесчаникиконгломератовидныепесчаникимелкообломочныеипепловыетуфыкислогосоставакварцесодержа3.png" /></td><td>Конгломерат-песчаниковая свита. Песчаники, конгломератовидные песчаники, мелкообломочные и пепловые туфы кислого состава, кварцесодержа</td></tr><tr><td style="text-align: center;"><img src="legend/LithologyA_1_ЛавытуфолавытуфыкварцевыхпорфироврежесреднИсмешанСостКварцсодПорфты4.png" /></td><td>Лавы, туфолавы, туфы кварцевых порфиров, реже средн. И смешан. Сост. Кварцсод. Порф-ты</td></tr><tr><td style="text-align: center;"><img src="legend/LithologyA_1_Малыеинтрущииидайкообразныетелапорфировидныхмелкозернистыхгранитов5.png" /></td><td>Малые интрущии и дайкообразные тела порфировидных мелкозернистых гранитов</td></tr><tr><td style="text-align: center;"><img src="legend/LithologyA_1_Отложения1ойнадпойменнойтеррасы6.png" /></td><td>Отложения 1-ой надпойменной террасы</td></tr><tr><td style="text-align: center;"><img src="legend/LithologyA_1_Отложенияруселрекпойменнойивысокойтерраспескисуглинкигалечники7.png" /></td><td>Отложения русел рек, пойменной и высокой террас: пески, суглинки, галечники</td></tr><tr><td style="text-align: center;"><img src="legend/LithologyA_1_Пескисгалькойигравием8.png" /></td><td>Пески с галькой и гравием</td></tr><tr><td style="text-align: center;"><img src="legend/LithologyA_1_Пескисупесьщебень9.png" /></td><td>Пески, супесь, щебень</td></tr><tr><td style="text-align: center;"><img src="legend/LithologyA_1_Сухиетакырытонкиеглины10.png" /></td><td>Сухие такыры, тонкие глины</td></tr><tr><td style="text-align: center;"><img src="legend/LithologyA_1_ТуфоалевролитоваясвитаАлевролитытуфоалевролитыпепловыетуфыкислогоисмешанногосостава11.png" /></td><td>Туфо-алевролитовая свита. Алевролиты, туфоалевролиты, пепловые туфы кислого и смешанного состава</td></tr><tr><td style="text-align: center;"><img src="legend/LithologyA_1_Туфобрекчиитуфолавытуфыкварцевыхпорфиров12.png" /></td><td>Туфобрекчии, туфолавы, туфы кварцевых порфиров.</td></tr><tr><td style="text-align: center;"><img src="legend/LithologyA_1_Туфолавыитуфыкварцевыхпорфиров13.png" /></td><td>Туфолавы и туфы кварцевых порфиров</td></tr><tr><td style="text-align: center;"><img src="legend/LithologyA_1_14.png" /></td><td></td></tr></table>': layer_LithologyA_1,'LithologyA<br /><table><tr><td style="text-align: center;"><img src="legend/LithologyA_0_Верхнекарбоноваяинтрузия0.png" /></td><td>Верхнекарбоновая интрузия</td></tr><tr><td style="text-align: center;"><img src="legend/LithologyA_0_Верхнийисовременныйотделчетвертичнойсистемы1.png" /></td><td>Верхний и современный отдел четвертичной системы</td></tr><tr><td style="text-align: center;"><img src="legend/LithologyA_0_Верхнийотделчерветричнойсистемы2.png" /></td><td>Верхний отдел черветричной системы</td></tr><tr><td style="text-align: center;"><img src="legend/LithologyA_0_ДевонНижнийисреднийотделынерасчлененный3.png" /></td><td>Девон. Нижний и средний отделы (нерасчлененный)</td></tr><tr><td style="text-align: center;"><img src="legend/LithologyA_0_Нижнекарбоноваяинтрузия4.png" /></td><td>Нижнекарбоновая интрузия</td></tr><tr><td style="text-align: center;"><img src="legend/LithologyA_0_СилурВерхнийлландоверий5.png" /></td><td>Силур. Верхний лландоверий</td></tr><tr><td style="text-align: center;"><img src="legend/LithologyA_0_СилурНижнийлландоверий6.png" /></td><td>Силур. Нижний лландоверий</td></tr><tr><td style="text-align: center;"><img src="legend/LithologyA_0_Соверменныйотделчетвертичнойсистемы7.png" /></td><td>Соверменный отдел четвертичной системы</td></tr><tr><td style="text-align: center;"><img src="legend/LithologyA_0_Среднийдевоннерасчлененный8.png" /></td><td>Средний девон (нерасчлененный)</td></tr><tr><td style="text-align: center;"><img src="legend/LithologyA_0_Среднийотделчетвертичнойсистемы9.png" /></td><td>Средний отдел четвертичной системы</td></tr><tr><td style="text-align: center;"><img src="legend/LithologyA_0_10.png" /></td><td></td></tr></table>': layer_LithologyA_0,}).addTo(map);
+        setBounds();
+        map.addControl(new L.Control.Search({
+            layer: layer_LithologyA_1,
+            initial: false,
+            hideMarkerOnCollapse: true,
+            propertyName: 'L_CODE'}));
+        document.getElementsByClassName('search-button')[0].className +=
+         ' fa fa-binoculars';
+        </script>
+    </body>
+</html>
